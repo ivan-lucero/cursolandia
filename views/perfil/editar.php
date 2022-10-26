@@ -14,7 +14,7 @@
     
     <?php var_dump(isset($this->errores) ? var_dump($this->errores) : null); ?>
     <br>
-    <form method="POST" action="<?php echo constant('URL') ?>perfil/editarPerfil">
+    <form method="POST" action="<?php echo constant('URL') ?>perfil/editarPerfil" enctype="multipart/form-data">
     <label for="">Imagen:</label>
     <input type="file" name="imagen" value="<?php echo $this->usuario["imagen"] ?>">
     <label for="">Teléfono:</label> 

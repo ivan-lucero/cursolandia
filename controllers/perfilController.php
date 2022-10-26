@@ -2,6 +2,7 @@
 
 include_once "models/classes/usuario.php";
 include_once("helpers/validaciones.php");
+include_once("helpers/archivos.php");
 
 class PerfilController extends Controller{
     function __construct()
@@ -10,7 +11,7 @@ class PerfilController extends Controller{
     }
     function render()
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
         $usuario = new Usuario();
         $usuario = $this->model->getUser($_SESSION["id"]);
         $intereses = $this->model->getUserTags($_SESSION["id"]);
@@ -20,7 +21,7 @@ class PerfilController extends Controller{
     }
     function editar($errors = [])
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
         $usuario = new Usuario();
         $usuario = $this->model->getUser($_SESSION["id"]);
         $intereses = $this->model->getUserTags($_SESSION["id"]);
@@ -33,19 +34,31 @@ class PerfilController extends Controller{
         $this->view->intereses = $intereses;
         $this->view->render('perfil/editar');
     }
-    function contrasena ()
+    function contrasena ($errors = [])
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
         $usuario = new Usuario();
         $usuario = $this->model->getUser($_SESSION["id"]);
+        if(!empty($errors))
+        {
+            $this->view->usuario = $_POST;
+            $this->view->errores = $errors;
+        }
         $this->view->usuario = $usuario;
         $this->view->render('perfil/contrasena');
     }
     
     function editarPerfil ()
     {
+        $archivo = new Archivos();
         $errors = [];
         $intereses = [];
+
+        session_start();
+        $imagen = $archivo->subirImagen($_FILES, $_SESSION["nombre"]);
+
+        if(!$imagen)
+            $errors["imagen"] = "La imagen no es valida";
         if(!Validaciones::validarTelefono($_POST["telefono"]))
             $errors["telefono"] = "El valor ingresado no es un telefono";
         if(!Validaciones::validarAntecedentes($_POST["antecedentes"]))
@@ -65,10 +78,9 @@ class PerfilController extends Controller{
             $this->editar($errors);
             return false;
         }
-        session_start();
         $usuario = new Usuario();
         $usuario->email = $_SESSION["email"];
-        $usuario->imagen = $_POST["imagen"];
+        $usuario->imagen = $imagen;
         $usuario->telefono = $_POST["telefono"];
         $usuario->fecha_nacimiento = $_POST["fecha_nacimiento"];
         $usuario->antecedentes = $_POST["antecedentes"];
@@ -78,6 +90,39 @@ class PerfilController extends Controller{
             header("Location:". constant('URL')."/perfil");
         }
         else echo "Error inesperado.";
+    }
+
+    function cambiarContrasena ()
+    {
+        if(!isset($_SESSION)) session_start();
+        $usuario = $this->model->getUser($_SESSION["id"]);
+        $errors = [];
+        var_dump($usuario);
+        var_dump($_POST);
+        if(!Validaciones::validarContrasena($_POST["contrasena_actual"]))
+            $errors["contrasena_actual"] = "La contraseña no es válida";
+        if(!Validaciones::validarContrasena($_POST["contrasena"]))
+            $errors["contrasena"] = "la contraseña tiene que ser mayor a 8 caracteres";
+        else if(!Validaciones::validarContrasena($_POST["confirmar_contrasena"]))
+            $errors["confirmar_contrasena"] = "la contraseña tiene que ser mayor a 8 caracteres";
+            else if($_POST["contrasena"] !== $_POST["confirmar_contrasena"])
+                $errors["confirmar_contrasena"] = "Las contraseñas ingresadas son diferentes";
+
+        if(!password_verify($_POST["contrasena_actual"], $usuario["contrasena"]))
+            $errors["contrasena_actual"] = "La contraseña no es válida";
+        
+        if(!empty($errors))
+        {
+            $this->view->errores = $errors;
+            $this->contrasena($errors);
+            return false;
+        }
+        var_dump($errors);
+        
+        if($this->model->updatePassword($_SESSION["id"], password_hash($_POST["contrasena"], PASSWORD_DEFAULT)))
+        {
+            header("Location:". constant('URL')."/perfil");
+        }
     }
 }
 

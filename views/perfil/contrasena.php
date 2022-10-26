@@ -12,7 +12,15 @@
     
     <?php var_dump($this->usuario); ?>
     <br>
-    
+    <form method="POST" action="<?php echo constant('URL') ?>perfil/cambiarContrasena">
+        <label for="contrasena_actual">Ingresar contraseña actual:</label>
+        <input type="password" name="contrasena_actual">
+        <label for="contrasena_actual">Ingresar nueva contraseña:</label>
+        <input type="password" name="contrasena">
+        <label for="contrasena_actual">Confirmar nueva contraseña:</label>
+        <input type="password" name="confirmar_contrasena">
+        <input type="submit" value="Confirmar">
+    </form>
     <?php require_once("views/footer.php");?>
 </body>
 </html>

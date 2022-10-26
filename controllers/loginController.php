@@ -47,6 +47,7 @@ class loginController extends Controller{
         session_start();
         $_SESSION["id"] = $usuario["id"];
         $_SESSION["email"] = $usuario["email"];
+        $_SESSION["nombre"] = $usuario["nombre"];
         $_SESSION["rol"] = $usuario["roles_id"];
         header("Location:". constant('URL'));
     }

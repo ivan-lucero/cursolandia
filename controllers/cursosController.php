@@ -9,6 +9,7 @@ class CursosController extends Controller{
     function render(){
         $this->view->render('cursos/index');
     }
+
 }
 
 ?>

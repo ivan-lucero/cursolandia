@@ -11,6 +11,7 @@
     <h1>Mi perfil</h1>
     
     <?php var_dump($this->usuario); var_dump($this->intereses); ?>
+    <img src="uploads/imgs/<?php echo $this->usuario["imagen"] ?>" alt="">
     <br>
     <a href="<?php echo constant("URL")."perfil/editar" ?>">Editar perfil</a>
     <a href="<?php echo constant("URL")."perfil/contrasena" ?>">Cambiar contraseña</a>

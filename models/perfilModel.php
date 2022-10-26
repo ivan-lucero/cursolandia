@@ -13,7 +13,7 @@ class PerfilModel extends Model {
     {
         $item = new Usuario();
         $query = $this->db->connect()->prepare(
-            "SELECT id,nombre,email,telefono,fecha_nacimiento,antecedentes,imagen,fecha_registro FROM usuarios
+            "SELECT * FROM usuarios
             WHERE id = :id
         ");
         try
@@ -45,6 +45,29 @@ class PerfilModel extends Model {
                 "fecha_nacimiento" => $usuario->fecha_nacimiento,
                 "antecedentes" => $usuario->antecedentes,
                 "email" => $usuario->email,
+                ]))
+            {
+                return true;
+            }
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
+    function updatePassword ($id, $password)
+    {
+        $query = $this->db->connect()->prepare(
+            "UPDATE usuarios
+            SET contrasena=:contrasena
+            WHERE id=:id"
+        );
+        try
+        {
+            if($query->execute([
+                "contrasena" => $password,
+                "id" => $id,
                 ]))
             {
                 return true;
