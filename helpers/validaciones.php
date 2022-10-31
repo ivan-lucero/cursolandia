@@ -35,7 +35,16 @@ class Validaciones {
         $fecha_actual = date("Y-m-d");
         return $fecha_actual > $fecha_nacimiento;
     }
-
+    static function validarFechaInicio($fecha_inicio)
+    {
+        $fecha_actual = date("Y-m-d");
+        return $fecha_inicio >= $fecha_actual;
+    }
+    static function validarFechaFin($fecha_inicio, $fecha_fin)
+    {
+        return $fecha_fin >= $fecha_inicio;
+    }
+    
 }
 
 ?>

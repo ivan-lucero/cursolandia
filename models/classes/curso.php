@@ -8,7 +8,6 @@ class Curso {
     private $cupo;
     private $fecha_inicio;
     private $fecha_fin;
-    private $es_pago;
     private $temario;
     private $fecha_creacion;
     private $dueno_id;
@@ -22,5 +21,6 @@ class Curso {
         return $this->$name;
     }
 }
+
 
 ?>  

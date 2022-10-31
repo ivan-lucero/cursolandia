@@ -10,6 +10,8 @@
 
     <?php require_once("views/header.php");?>
     <h1>Pagina Mis Cursos</h1>
+    
+    <a href="<?php echo constant("URL")."miscursos/crear" ?>">Crear curso</a>
     <?php require_once("views/footer.php");?>
 </body>
 </html>
