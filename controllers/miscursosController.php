@@ -5,7 +5,6 @@ include_once "models/cursosModel.php";
 include_once("helpers/validaciones.php");
 include_once("helpers/archivos.php");
 
-
 class MisCursosController extends Controller{
     function __construct()
     {
@@ -29,10 +28,9 @@ class MisCursosController extends Controller{
     }
     function crearCurso()
     {
-        // CONTINUAR !!!!!!
         $errors = [];
-        if(!Validaciones::validarNombre($_POST["titulo"]))
-            $errors["titulo"] = "El titulo solo puede contener letras y numeros";
+        if(!Validaciones::validarTitulo($_POST["titulo"]))
+            $errors["titulo"] = "El titulo debe ser menor a 45 caracteres";
         if(!Validaciones::validarFechaInicio($_POST["fecha_inicio"]))
             $errors["fecha_inicio"] = "la fecha ingresada debe ser mayor o igual a la fecha actual";
         if(!Validaciones::validarFechaFin($_POST["fecha_inicio"] ,$_POST["fecha_fin"]))
@@ -52,13 +50,13 @@ class MisCursosController extends Controller{
             $this->crear($errors, $curso);
             return;
         }
-        var_dump($curso);
+        
         $cursos_model = new CursosModel;
+        
         if($curso_creado = $cursos_model->create($curso)) {
-            return $curso_creado;
+            header("Location:". constant('URL')."cursos/ver/". $curso_creado->id);
         }
 
-        else echo "ERROR";
         
     }
 

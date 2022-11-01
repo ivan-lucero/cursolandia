@@ -44,7 +44,10 @@ class Validaciones {
     {
         return $fecha_fin >= $fecha_inicio;
     }
-    
+    static function validarTitulo($titulo)
+    {
+        return strlen($titulo) <= 45;
+    }
 }
 
 ?>

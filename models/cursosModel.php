@@ -4,6 +4,22 @@ include_once "models/classes/curso.php";
 
 class CursosModel extends Model {
 
+    function getLast ()
+    {
+        $lastItem = $this->db->connect()->query("select *
+        from cursos
+       order by id desc
+       limit 1;");
+       if($row = $lastItem->fetch())
+       {
+           $item = new Curso();
+           $item->titulo = $row["titulo"];
+           $item->descripcion = $row["descripcion"];
+           $items[] = $item;
+       }
+       return $items;
+    }
+
     function getAll ()
     {
         // $query = $this->db->connect()->query()
@@ -54,6 +70,7 @@ class CursosModel extends Model {
                 if($row = $query->fetch())
                 {
                     $item = new Curso();
+                    $item->id = $row["id"];
                     $item->titulo = $row["titulo"];
                     $item->descripcion = $row["descripcion"];
                     $item->costo = $row["costo"];
@@ -78,9 +95,9 @@ class CursosModel extends Model {
         var_dump($curso);
         echo "CREATE";
         $query = $this->db->connect()->prepare(
-            "INSERT INTO usuarios
-            (titulo,descripcion,costo,cupo,fecha_inicio,fecha_fin,temario,fecha_creacion,dueno_id)
-            VALUES (:titulo,:descripcion,:costo,:cupo,:fecha_inicio,:fecha_fin,:temario,:fecha_creacion,:dueno_id)"
+            "INSERT INTO cursos
+                (titulo,descripcion,costo,cupo,fecha_inicio,fecha_fin,temario,dueno_id)
+            VALUES (:titulo,:descripcion,:costo,:cupo,:fecha_inicio,:fecha_fin,:temario,:dueno_id)"
         );
         try{
             if($query->execute([
@@ -91,11 +108,31 @@ class CursosModel extends Model {
                 "fecha_inicio" => $curso->fecha_inicio,
                 "fecha_fin" => $curso->fecha_fin,
                 "temario" => $curso->temario,
-                "fecha_creacion" => date("Y-m-d H:i:s"),
                 "dueno_id" => $curso->dueno_id,
             ]))
-                return $query->fetch();
-            else return var_dump($query) ;
+            {
+                $query_last_item = $this->db->connect()->query(
+                    "SELECT *
+                    FROM cursos
+                    ORDER BY id DESC
+                    LIMIT 1");
+                if($row = $query_last_item->fetch())
+                {
+                    $item = new Curso();
+                    $item->id = $row["id"];
+                    $item->titulo = $row["titulo"];
+                    $item->descripcion = $row["descripcion"];
+                    $item->costo = $row["costo"];
+                    $item->cupo = $row["cupo"];
+                    $item->fecha_inicio = $row["fecha_inicio"];
+                    $item->fecha_fin = $row["fecha_fin"];
+                    $item->temario = $row["temario"];
+                    $item->fecha_creacion = $row["fecha_creacion"];
+                    $item->dueno_id = $row["dueno_id"];
+                    return $item;
+                }
+            }
+            else return false;
         }
         catch(Exception $ex)
         {
@@ -108,7 +145,7 @@ class CursosModel extends Model {
     function update ($curso)
     {
         $query = $this->db->connect()->prepare(
-            "UPDATE usuarios
+            "UPDATE cursos
             SET titulo=:titulo,descripcion=:descripcion,costo=:costo,cupo=:cupo,fecha_inicio=:fecha_inicio,fecha_fin=:fecha_fin,temario=:temario,fecha_creacion=:fecha_creacion,dueno_id=:dueno_id
             WHERE id=:id
         ");
