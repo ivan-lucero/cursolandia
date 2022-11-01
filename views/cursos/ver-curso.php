@@ -11,8 +11,9 @@
     <?php session_start();?>
     <h1> Ver curso</h1>
     <?php var_dump($this->curso);?>
-    <?php if(is_null($this->curso->temario) && $this->curso->dueno_id == $_SESSION["id"]) {
-        echo "<a href='."<?php ?>'>Agregar Temario</a>";
+    <?php if($this->curso->dueno_id == $_SESSION["id"]) {
+        echo "<a href=".constant('URL')."miscursos/editar/".$this->curso->id.">Editar curso</a>";
+        echo "<a href=".constant('URL')."miscursos/eliminarCurso/".$this->curso->id.">Eliminar curso</a>";
     } ?>
     <?php require_once("views/footer.php");?>
 </body>

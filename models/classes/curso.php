@@ -11,6 +11,7 @@ class Curso {
     private $temario;
     private $fecha_creacion;
     private $dueno_id;
+    private $etiqueta_id;
 
     public function __set($name, $value)
     {

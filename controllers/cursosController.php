@@ -10,6 +10,9 @@ class CursosController extends Controller{
     }
 
     function render(){
+        $cursos_model = new CursosModel;
+        $cursos = $cursos_model->getAll();
+        $this->view->cursos = $cursos;
         $this->view->render('cursos/index');
     }
     function ver($param){

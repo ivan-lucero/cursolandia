@@ -10,12 +10,6 @@ class RegistroController extends Controller{
     function render(){
         $this->view->render('registro/index');
     }
-
-    function roles ()
-    {
-        $roles = $this->model->prueba();
-        var_dump($roles);
-    }
     
     function registrarse()
     {
@@ -61,11 +55,7 @@ class RegistroController extends Controller{
         
         if($respuesta)
         {
-            echo "Entra respuesta OK";
-            session_start();
-            $_SESSION["rol"] = 1;
-            $_SESSION["email"] = $email;
-            header("Location:". constant('URL'));
+            header("Location:". constant('URL')."login");
 
         }
         else echo "Error inesperado";
