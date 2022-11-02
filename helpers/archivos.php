@@ -3,6 +3,7 @@
 class Archivos {
 
     private $directorio_imgs = "uploads/imgs/";
+    private $directorio_materiales = "uploads/files/";
 
     function subirImagen ($archivo, $nombre_usuario)
     {
@@ -24,6 +25,11 @@ class Archivos {
         if(move_uploaded_file($archivo["imagen"]["tmp_name"], $imagen))
             return $nombre_imagen;
         else return false;
+    }
+
+    function subirMaterial ($archivo, $id_curso)
+    {
+
     }
 }
 
