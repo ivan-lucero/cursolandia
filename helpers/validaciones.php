@@ -2,6 +2,14 @@
 
 class Validaciones {
 
+    static function validarDecimal($decimal)
+    {
+        return (!preg_match(
+            "^[0-9]{1,3}$|^[0-9]{1,3}\.[0-9]{1,3}$",
+            $decimal
+            ))
+            ? false : true;
+    }
     static function validarNombre($nombre)
     {
         return (!preg_match(
@@ -48,6 +56,8 @@ class Validaciones {
     {
         return strlen($titulo) <= 45;
     }
+
+
 }
 
 ?>

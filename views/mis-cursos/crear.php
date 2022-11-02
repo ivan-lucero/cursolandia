@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <?php require_once("views/header.php"); if(isset($this->curso)) var_dump($this->curso); if(isset($this->curso)) var_dump($this->errores);?>
+    <?php require_once("views/header.php"); if(isset($this->curso)) var_dump($this->curso); if(isset($this->errores)) var_dump($this->errores);?>
     <h1>Crear curso</h1>
 
     <form action="<?php echo constant('URL')."miscursos/crearCurso" ?>" method="POST">

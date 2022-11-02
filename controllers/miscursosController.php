@@ -34,14 +34,13 @@ class MisCursosController extends Controller{
     {
         $cursos_model = new CursosModel;
         $curso = $cursos_model->getById($param[0]);
-        var_dump($curso);
-        // if(!empty($errores))
-        // {
-        //     $this->view->errores = $errores;
-        //     $this->view->render('mis-cursos/editar');
-        //     return;
-        // }
         $this->view->curso = $curso;
+        if(!empty($errores))
+        {
+            $this->view->errores = $errores;
+            $this->view->render('mis-cursos/editar');
+            return;
+        }
         $this->view->render('mis-cursos/editar');
     }
     
@@ -56,8 +55,11 @@ class MisCursosController extends Controller{
             $errors["fecha_fin"] = "la fecha ingresada debe ser mayor a la fecha de inicio";
         if($_POST["etiqueta"] < 1 || $_POST["etiqueta"] > 3)
             $errors["etiqueta"] = "Seleccione una etiqueta";
-        if($_POST["costo"] < 0) 
+        if(Validaciones::validarDecimal($_POST["decimal"]))
+            $errores["costo"] = "El costo ingresado debe ser un numero";
+        else if($_POST["costo"] < 0) 
             $errors["costo"] = "El costo debe ser un valor positivo";
+        
         if($_POST["costo"] === "") 
             $_POST["costo"] = 0;
         session_start();
@@ -97,7 +99,10 @@ class MisCursosController extends Controller{
             $errors["fecha_fin"] = "la fecha ingresada debe ser mayor a la fecha de inicio";
         if($_POST["etiqueta"] < 1 || $_POST["etiqueta"] > 3)
             $errors["etiqueta"] = "Seleccione una etiqueta";
-
+        if($_POST["costo"] < 0) 
+            $errors["costo"] = "El costo debe ser un valor positivo";
+        if($_POST["costo"] === "") 
+            $_POST["costo"] = 0;
         if(!empty($errors))
         {
             $this->editar($param ,$errors);

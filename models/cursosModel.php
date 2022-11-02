@@ -101,6 +101,30 @@ class CursosModel extends Model {
         }
     }
 
+    function getStudents($id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT usuarios_id FROM usuarios_cursos
+            WHERE cursos_id = :curso_id 
+        ");
+        try
+        {
+            if($query->execute(["curso_id" => $id]))
+            {   
+                $items = [];
+                while($row = $query->fetch())
+                {
+                    $items[] = $row["usuarios_id"];
+                }
+            }
+            return $items;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
     function create ($curso)
     {
         $query = $this->db->connect()->prepare(
@@ -187,6 +211,51 @@ class CursosModel extends Model {
             if($query->execute(["id" => $id]))
             {
                 return true;
+            }
+            else return false;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
+    function addStudentFree($curso_id, $alumno_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "INSERT INTO usuarios_cursos
+            (usuarios_id, cursos_id, pago_pendiente)
+            VALUES (:usuarios_id, :cursos_id, :pago_pendiente)
+        ");
+        try{
+            if($query->execute([
+                "usuarios_id" => $alumno_id,
+                "cursos_id" => $curso_id,
+                "pago_pendiente" => 0,
+            ])){
+                return true;              
+        }
+            else return false;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+    function addStudentPendingPay($curso_id, $alumno_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "INSERT INTO usuarios_cursos
+            (usuarios_id, cursos_id, pago_pendiente)
+            VALUES (:usuarios_id, :cursos_id, :pago_pendiente)
+        ");
+        try{
+            if($query->execute([
+                "usuarios_id" => $alumno_id,
+                "cursos_id" => $curso_id,
+                "pago_pendiente" => 1,
+            ])){
+                return true;              
             }
             else return false;
         }
