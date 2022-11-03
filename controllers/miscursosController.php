@@ -137,6 +137,15 @@ class MisCursosController extends Controller{
             header("Location:". constant('URL')."miscursos");
         }
     }
+
+    function subirMaterial($param)
+    {
+        var_dump($param);
+        var_dump($_FILES);
+        $curso_id = $param[0];
+        $archivosHelper = new Archivos;
+        $archivosHelper->subirMaterial($_FILES, $curso_id);
+    }
 }
 
 ?>

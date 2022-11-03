@@ -27,9 +27,14 @@ class Archivos {
         else return false;
     }
 
-    function subirMaterial ($archivo, $id_curso)
+    function subirMaterial ($archivo, $curso_id)
     {
+        var_dump($archivo);
+        var_dump($curso_id);
 
+        // $tamano = $archivo["imagen"]["size"];
+        // if($tamano > 500000)
+        //     return false;
     }
 }
 

@@ -50,12 +50,12 @@ class PerfilController extends Controller{
     
     function editarPerfil ()
     {
-        $archivo = new Archivos();
+        $archivosHelper = new Archivos();
         $errors = [];
         $intereses = [];
 
         session_start();
-        $imagen = $archivo->subirImagen($_FILES, $_SESSION["nombre"]);
+        $imagen = $archivosHelper->subirImagen($_FILES, $_SESSION["nombre"]);
 
         if(!$imagen)
             $errors["imagen"] = "La imagen no es valida";

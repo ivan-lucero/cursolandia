@@ -35,7 +35,7 @@
     <br>
     <h2>Materiales</h2>
     <?php if($this->curso->dueno_id == $_SESSION["id"]) { ?>
-        <form method="POST" action="<?php constant("URL")."cursos/subirMaterial/".$this->curso->id ?>" enctype="multipart/form-data">
+        <form action="<?php echo constant('URL')."miscursos/subirMaterial/".$this->curso->id ?>" method="POST" enctype="multipart/form-data">
             <input type="file" name="material">
             <input type="submit" value="Subir Material">
         </form>
