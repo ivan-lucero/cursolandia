@@ -29,13 +29,20 @@ class Archivos {
 
     function subirMaterial ($archivo, $curso_id)
     {
-        var_dump($archivo);
-        var_dump($curso_id);
+        $tamano = $archivo["material"]["size"];
+        if($tamano > 2000000)
+            return false;
+        
+        $nombre_archivo = $curso_id . "." . $archivo["material"]["name"];
+        
+        $material = $this->directorio_materiales . $nombre_archivo;
 
-        // $tamano = $archivo["imagen"]["size"];
-        // if($tamano > 500000)
-        //     return false;
+        if(move_uploaded_file($archivo["material"]["tmp_name"], $material))
+            return true;
+        else return false;
     }
+
+    
 }
 
 ?>

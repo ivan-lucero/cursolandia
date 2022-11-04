@@ -2,6 +2,7 @@
 
 include_once "models/classes/curso.php";
 include_once "models/cursosModel.php";
+include_once "models/materialesModel.php";
 include_once("helpers/validaciones.php");
 include_once("helpers/archivos.php");
 
@@ -140,12 +141,27 @@ class MisCursosController extends Controller{
 
     function subirMaterial($param)
     {
-        var_dump($param);
-        var_dump($_FILES);
         $curso_id = $param[0];
         $archivosHelper = new Archivos;
-        $archivosHelper->subirMaterial($_FILES, $curso_id);
+        $materiales_model = new MaterialesModel;
+        $material = new Material;
+        $material->nombre = $_FILES["material"]["name"];
+        $material->peso = $_FILES["material"]["size"];
+        $material->curso_id = $curso_id;
+        if($material_creado = $materiales_model->create($material))
+        {
+            if($archivosHelper->subirMaterial($_FILES, $curso_id))
+                header("Location:". constant('URL')."cursos/ver/". $curso_id);
+            else echo "Error al subir archivo";
+        }
+        else echo "Error BD desde controlador";
     }
+
+    function eliminarMaterial ()
+    {
+        // CONTINUAR
+    }
+
 }
 
 ?>

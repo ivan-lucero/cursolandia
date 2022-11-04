@@ -3,6 +3,7 @@
 include_once "models/classes/curso.php";
 include_once "models/cursosModel.php";
 include_once "models/usuariosCursosModel.php";
+include_once "models/materialesModel.php";
 
 class CursosController extends Controller{
     function __construct()
@@ -21,6 +22,9 @@ class CursosController extends Controller{
         $curso_id = intval($param[0]);
         $cursos_model = new CursosModel;
         $usuarios_cursos_model = new UsuariosCursosModel;
+        $materiales_model = new MaterialesModel;
+        $materiales = $materiales_model->getAllByCourse($curso_id);
+        var_dump($materiales);
         $curso = $cursos_model->getById($curso_id);
         if($curso->dueno_id != $_SESSION["id"])
         {
@@ -34,6 +38,7 @@ class CursosController extends Controller{
             }
             else $this->view->es_inscripto = false;
         }
+        $this->view->materiales = $materiales;
         $this->view->curso = $curso;
         $this->view->render("cursos/ver-curso");
     }
@@ -59,6 +64,12 @@ class CursosController extends Controller{
         $usuarios_cursos_model = new UsuariosCursosModel;
         if($usuarios_cursos_model->deleteStudent($curso_id, $_SESSION["id"]))
             header("Location:". constant('URL')."cursos/ver/". $curso_id);
+    }
+
+    
+    function abrirMaterial ($curso_id, $archivo)
+    {
+        header("Location:". constant('URL')."uploads/files/". $curso_id . $archivo);
     }
 }
 

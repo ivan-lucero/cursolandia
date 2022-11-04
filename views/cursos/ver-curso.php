@@ -41,6 +41,18 @@
         </form>
     <?php } ?>
     
+    <br>
+    <br>
+
+    <?php if(isset($this->materiales)) {
+        foreach($this->materiales as $material)
+        {
+            echo "<hr>";
+            echo "<a href='" . constant('URL') . "uploads/files/" . $material->curso_id . "." . $material->nombre ." ' target='_blank'> ".$material->nombre. "</a>";
+            echo "<br>";
+            echo "<a href='". constant('URL') . "eliminarMaterial/". $material->id . "'>Eliminar</a>";
+        }
+    } ?>
     <?php require_once("views/footer.php");?>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-class Curso {
+class  Material {
     private $id;
     private $nombre;
     private $ruta;
