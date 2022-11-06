@@ -2,6 +2,7 @@
 
 include_once "models/classes/curso.php";
 include_once "models/cursosModel.php";
+include_once "models/usuariosCursosModel.php";
 include_once "models/materialesModel.php";
 include_once("helpers/validaciones.php");
 include_once("helpers/archivos.php");
@@ -89,8 +90,6 @@ class MisCursosController extends Controller{
     function editarCurso ($param)
     {
         $curso_id = $param[0];
-        var_dump($curso_id);
-        var_dump($_POST);
         $errors = [];
         if(!Validaciones::validarTitulo($_POST["titulo"]))
             $errors["titulo"] = "El titulo debe ser menor a 45 caracteres";
@@ -131,7 +130,6 @@ class MisCursosController extends Controller{
     function eliminarCurso ($param)
     {
         $curso_id = $param[0];
-        var_dump($curso_id);
         $cursos_model = new CursosModel;
         if($cursos_model->delete($curso_id))
         {
@@ -142,6 +140,11 @@ class MisCursosController extends Controller{
     function subirMaterial($param)
     {
         $curso_id = $param[0];
+        if($_FILES["material"]["name"] === "")
+        {
+            echo "Error. Archivo vacio";
+            return;
+        }
         $archivosHelper = new Archivos;
         $materiales_model = new MaterialesModel;
         $material = new Material;
@@ -157,9 +160,53 @@ class MisCursosController extends Controller{
         else echo "Error BD desde controlador";
     }
 
-    function eliminarMaterial ()
+    function eliminarMaterial ($param)
     {
         // CONTINUAR
+        session_start();
+        $material_id = $param[0];
+        $materiales_model = new MaterialesModel;
+        $cursos_model = new CursosModel;
+        $material = $materiales_model->getById($material_id);
+        $curso = $cursos_model->getById($material->curso_id);
+        if($curso->dueno_id !== $_SESSION["id"])
+        {
+            echo "Error 403. Operacion no autorizada";
+            return;
+        }
+        if($materiales_model->delete($material_id))
+        {
+            header("Location:". constant('URL')."cursos/ver/". $curso->id);
+        }
+        echo "Error Inesperado";
+    }
+
+    function aceptarAlumno ($params)
+    {
+         // CONTINUAR //
+        echo "Aceptar alumno";
+        $usuario_id = $params[0];
+        $curso_id = $params[1];
+        var_dump($curso_id);
+        var_dump($usuario_id);
+        $usuarios_cursos_model = new UsuariosCursosModel;
+        if($usuarios_cursos_model->updateStudentPendingToPay($curso_id, $usuario_id))
+        {
+            header("Location:". constant('URL')."cursos/ver/". $curso_id);
+        } else echo "Error inesperado";
+    }
+    function rechazarAlumno ($params)
+    {
+        echo "rechazar alumno";
+        $curso_id = $params[0];
+        $usuario_id = $params[1];
+        var_dump($curso_id);
+        var_dump($usuario_id);
+        $usuarios_cursos_model = new UsuariosCursosModel;
+        if($usuarios_cursos_model->deleteStudent($curso_id, $usuario_id))
+        {
+            header("Location:". constant('URL')."cursos/ver/". $curso_id);
+        } else echo "Error inesperado";
     }
 
 }

@@ -154,4 +154,28 @@ class UsuariosCursosModel extends Model {
             return $ex->getMessage();
         }
     }
+
+    function updateStudentPendingToPay($curso_id, $alumno_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "UPDATE usuarios_cursos
+            SET pago_pendiente = 0
+            WHERE usuarios_id = :usuarios_id
+            AND cursos_id = :cursos_id
+        ");
+        try{
+            if($query->execute([
+                "usuarios_id" => $alumno_id,
+                "cursos_id" => $curso_id,
+            ])){
+                echo "ASDSA";
+                return true;
+            }
+            else return false;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
 }

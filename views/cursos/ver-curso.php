@@ -33,6 +33,21 @@
     <br>
     <hr>
     <br>
+    <br>
+    
+    <?php if($this->curso->dueno_id == $_SESSION["id"]) {
+        echo "<h2>Inscripciones</h2>";
+        foreach ($this->alumnos_pendientes as $alumno_pendiente)
+        { ?>
+            <p><?php echo $alumno_pendiente["nombre"]; ?></p>
+            <?php echo "<a href=".constant('URL')."miscursos/aceptarAlumno/". $alumno_pendiente["id"]. "/". $this->curso->id .">Aceptar</a>"; ?>
+            <?php echo "<a href=".constant('URL')."miscursos/rechazarAlumno/". $alumno_pendiente["id"]. "/". $this->curso->id .">Rechazar</a>"; ?>
+        <?php } 
+    } ?>
+
+    <br>
+    <hr>
+    <br>
     <h2>Materiales</h2>
     <?php if($this->curso->dueno_id == $_SESSION["id"]) { ?>
         <form action="<?php echo constant('URL')."miscursos/subirMaterial/".$this->curso->id ?>" method="POST" enctype="multipart/form-data">
@@ -50,9 +65,24 @@
             echo "<hr>";
             echo "<a href='" . constant('URL') . "uploads/files/" . $material->curso_id . "." . $material->nombre ." ' target='_blank'> ".$material->nombre. "</a>";
             echo "<br>";
-            echo "<a href='". constant('URL') . "eliminarMaterial/". $material->id . "'>Eliminar</a>";
+            echo "<a href='". constant('URL') . "miscursos/eliminarMaterial/". $material->id . "'>Eliminar</a>";
         }
     } ?>
+
+    <br>
+    <br>
+    <hr>
+    <br>
+
+    <h2>Foro</h2>
+
+    <form action="<?php echo constant("URL") . "preguntas/crearPregunta/". $this->curso->id . "/" . $_SESSION["id"] ?>" method="POST">
+        <label for="titulo">Titulo:</label>
+        <input type="text" name="titulo">
+        <label for="titulo">Contenido:</label>
+        <textarea name="contenido"></textarea>
+        <input type="submit" value="Crear pregunta">
+    </form>
     <?php require_once("views/footer.php");?>
 </body>
 </html>

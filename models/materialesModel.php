@@ -4,9 +4,32 @@ include_once "models/classes/material.php";
 
 class MaterialesModel extends Model {
 
-    function getById($id)
+    function getById($material_id)
     {
-
+        $query = $this->db->connect()->prepare(
+            "SELECT * FROM materiales
+            WHERE id = :id
+        ");
+        try
+        {
+            if($query->execute(["id" => $material_id]))
+            {
+                if($row = $query->fetch())
+                {
+                    $item = new Material;
+                    $item->id = $row["id"];
+                    $item->nombre = $row["nombre"];
+                    $item->peso = $row["peso"];
+                    $item->curso_id = $row["cursos_id"];
+                }
+                return $item;
+            }
+            else return false;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
     }
 
     function getAllByCourse($curso_id)
@@ -59,7 +82,6 @@ class MaterialesModel extends Model {
                         LIMIT 1");
                     if($row = $query_last_item->fetch())
                     {
-                        var_dump($row);
                         $item = new Material(); 
                         $item->id = $row["id"];
                         $item->nombre = $row["nombre"];
@@ -78,9 +100,24 @@ class MaterialesModel extends Model {
         }
     }
 
-    function delete ($material)
+    function delete ($material_id)
     {
-        
+        $query = $this->db->connect()->prepare(
+            "DELETE FROM materiales
+            WHERE id = :id
+        ");
+        try
+        {
+            if($query->execute(["id" => $material_id]))
+            {
+                return true;
+            }
+            else return false;
+        }
+        catch (PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
     }
 
 }
