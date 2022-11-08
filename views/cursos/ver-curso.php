@@ -76,13 +76,23 @@
 
     <h2>Foro</h2>
 
-    <form action="<?php echo constant("URL") . "preguntas/crearPregunta/". $this->curso->id . "/" . $_SESSION["id"] ?>" method="POST">
-        <label for="titulo">Titulo:</label>
-        <input type="text" name="titulo">
-        <label for="titulo">Contenido:</label>
-        <textarea name="contenido"></textarea>
-        <input type="submit" value="Crear pregunta">
-    </form>
+    <?php if($this->es_inscripto && !$this->es_pago_pendiente && $this->curso->dueno_id != $_SESSION["id"]) 
+    { ?>
+        <a href="<?php echo constant("URL") . "preguntas/crear/".$this->curso->id ."/" .$_SESSION["id"] ?>">Crear pregunta</a>
+
+    <?php } ?>
+    
+    <?php if(($this->es_inscripto && !$this->es_pago_pendiente) || $this->curso->dueno_id == $_SESSION["id"]) 
+    { ?>
+        <?php foreach($this->preguntas as $pregunta)
+        { ?>
+            <?php var_dump($pregunta); ?>
+            <a href="<?php echo constant("URL") . "preguntas/ver/". $pregunta->id ?>">Ver pregunta</a>
+            
+        <?php } ?> 
+
+    <?php } ?>
+    
     <?php require_once("views/footer.php");?>
 </body>
 </html>

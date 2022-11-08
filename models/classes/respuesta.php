@@ -1,15 +1,15 @@
-<?php
+<?php 
 
-class Pregunta {
-
+class Respuesta {
+    
     private $id;
-    private $titulo;
     private $contenido;
+    private $es_destacado;
     private $fecha_creacion;
-    private $es_concluida;
-    private $curso_id;
     private $creador_id;
-
+    private $preguntas_id;
+    private $respuesta_citada_id;
+    
     public function __set($name, $value)
     {
         $this->$name = $value;
@@ -19,6 +19,5 @@ class Pregunta {
         return $this->$name;
     }
 }
-
 
 ?>

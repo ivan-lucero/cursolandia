@@ -10,7 +10,8 @@
 <body>
     <?php require 'views/header.php'; ?>
 
-    
+    <?php include_once $this->error; ?>
+
     <?php require 'views/footer.php'; ?>
 </body>
 </html>

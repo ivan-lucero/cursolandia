@@ -1,10 +1,12 @@
 <?php
 
-class Alumno {
+class Notificacion {
 
-    private $matricula;
-    private $nombre;
-    private $apellido;
+    private $id;
+    private $contenido;
+    private $es_leido;
+    private $fecha_creacion;
+    private $usuarios_id;
 
     public function __set($name, $value)
     {
@@ -14,6 +16,7 @@ class Alumno {
     {
         return $this->$name;
     }
+
 }
 
-?>  
+?>
