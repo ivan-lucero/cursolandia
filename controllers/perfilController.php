@@ -56,8 +56,8 @@ class PerfilController extends Controller{
 
         session_start();
         $imagen = $archivosHelper->subirImagen($_FILES, $_SESSION["nombre"]);
-
-        if(!$imagen)
+        var_dump($_POST); 
+        if(!is_null($imagen) && !$imagen)
             $errors["imagen"] = "La imagen no es valida";
         if(!Validaciones::validarTelefono($_POST["telefono"]))
             $errors["telefono"] = "El valor ingresado no es un telefono";

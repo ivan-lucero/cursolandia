@@ -7,17 +7,41 @@ class UsuariosModel extends Model {
 
     function getUser ($id)
     {
-        $item = new Usuario();
         $query = $this->db->connect()->prepare(
             "SELECT * FROM usuarios
             WHERE id = :id
         ");
         try
         {
+            $item = new Usuario();
             if($query->execute(["id" => $id]))
             {
                 $item = $query->fetch();
                 return ($item);
+            }
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
+    function getUserTags($usuario_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT etiqueta_id FROM usuarios_etiquetas
+            WHERE usuario_id = :usuario_id
+        ");
+        try
+        {
+            if($query->execute(["usuario_id" => $usuario_id]))
+            {
+                $items = [];
+                while($row = $query->fetch())
+                {
+                    $items [] = $row["etiqueta_id"];
+                }
+                return $items;
             }
         }
         catch(PDOException $ex)

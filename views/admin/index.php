@@ -12,4 +12,4 @@
     <h1>Pagina Dashboard Admin</h1>
     <?php require_once("views/footer.php");?>
 </body>
-</html>
+</html> 

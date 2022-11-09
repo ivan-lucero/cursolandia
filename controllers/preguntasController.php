@@ -4,6 +4,7 @@ include_once "models/classes/pregunta.php";
 include_once "models/classes/respuesta.php";
 include_once "models/preguntasModel.php";
 include_once "models/respuestasModel.php";
+include_once "notificacionesController.php";
 
 class PreguntasController extends Controller{
     
@@ -49,10 +50,12 @@ class PreguntasController extends Controller{
 
     function crearPregunta ($params)
     {
+        session_start();
+        $notificaciones_controller = new NotificacionesController;
         echo "Crear pregunta";
         var_dump($_POST);
         $curso_id = $params[0];
-        $creador_id = $params[1];
+        $creador_id = $_SESSION["id"];
         var_dump($params);
         $preguntas_model = new PreguntasModel;
         $pregunta = new Pregunta;
@@ -62,7 +65,9 @@ class PreguntasController extends Controller{
         $pregunta->creador_id = $creador_id;
         if($pregunta_creada = $preguntas_model->create($pregunta))
         {
-            header("Location:". constant('URL')."preguntas/ver/". $pregunta_creada->id);
+            var_dump($pregunta_creada);
+            if($notificaciones_controller->notificarPreguntaCreada($curso_id)) 
+                header("Location:". constant('URL')."preguntas/ver/". $pregunta_creada->id);
         }
     }
 
@@ -79,8 +84,6 @@ class PreguntasController extends Controller{
         {
             header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);
         }
-
     }
-
 }
 ?>

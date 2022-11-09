@@ -7,6 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Pagina invitados</h1>
+
+    <?php require_once("views/header-invitado.php");?>
+    
+    <main class="row vh-100 vw-100 justify-content-center align-items-center">
+        <div class="col-auto text-center">
+            <h1>Bienvenido a Cursolandia</h1>
+            <a class="btn btn-primary" href="<?php echo constant('URL')?>login">Iniciar sesion</a>
+            <a class="btn btn-primary" href="<?php echo constant('URL')?>registro">Registrarse</a>
+        </div>
+    </main>
+
+    <?php require_once("views/footer.php");?>
 </body>
 </html>

@@ -7,6 +7,30 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Pagina Home Usuario</h1>
+    <?php require_once("views/header.php");?>
+    
+    <header class="container text-center">
+        <h1>Inicio</h1>
+    </header>
+    <main class="container">
+        <h2>Cursos recomendados:</h2>
+        <div class="d-flex p-2">
+    <?php 
+        foreach($this->cursos_recomendados as $curso_recomendado)
+        {
+            foreach($curso_recomendado as $curso)
+            { ?>
+                <div class="card mx-1" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $curso->titulo ?></h5>
+                        <p class="card-text"><?php echo $curso->descripcion ?></p>
+                        <a href=" <?php echo constant("URL")."cursos/ver/". $curso->id ?>">Ver curso</a>
+                    </div>
+                </div>
+            <?php }
+        } ?>
+        </div>
+    </main>
+    <?php require_once("views/footer.php");?>
 </body>
 </html>

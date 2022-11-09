@@ -1,12 +1,8 @@
 <?php
 
-class Notificacion {
-
+class Etiqueta {
     private $id;
-    private $contenido;
-    private $es_leido;
-    private $fecha_creacion;
-    private $usuario_id;
+    private $nombre;
 
     public function __set($name, $value)
     {
@@ -16,7 +12,7 @@ class Notificacion {
     {
         return $this->$name;
     }
-
 }
 
-?>
+
+?>  

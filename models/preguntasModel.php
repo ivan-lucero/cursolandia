@@ -68,6 +68,32 @@ class PreguntasModel extends Model {
         }
     }
 
+    function getAllParticipants($pregunta_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT DISTINCT creador_id FROM respuestas
+            WHERE preguntas_id = :pregunta_id
+        ");
+        try
+        {
+            if($query->execute(["pregunta_id" => $pregunta_id]))
+            {
+                $items = [];
+                while($row = $query->fetch())
+                {
+                    $item = $row["creador_id"];
+                    $items[] = $item;
+                }
+                return $items;
+            }
+            else return false;
+        }
+        catch (PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
     function create ($pregunta)
     {
         $query = $this->db->connect()->prepare(

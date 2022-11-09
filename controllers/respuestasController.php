@@ -4,6 +4,7 @@ include_once "models/classes/pregunta.php";
 include_once "models/classes/respuesta.php";
 include_once "models/preguntasModel.php";
 include_once "models/respuestasModel.php";
+include_once "notificacionesController.php";
 
 class RespuestasController extends Controller {
 
@@ -28,6 +29,7 @@ class RespuestasController extends Controller {
     function crearRespuesta ($params)
     {
         session_start();
+        $notificaciones_controller = new NotificacionesController;
         $pregunta_id = $params[0];
         $respuestas_model = new RespuestasModel;
         $respuesta = new Respuesta;
@@ -45,6 +47,7 @@ class RespuestasController extends Controller {
 
         if($respuesta_creada = $respuestas_model->create($respuesta))
         {
+            $notificaciones_controller->notificarRespuestaCreada($pregunta_id);
             header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);
         }
     }
@@ -64,9 +67,9 @@ class RespuestasController extends Controller {
             {
                 header("Location:". constant('URL')."preguntas/ver/". $pregunta->id);
             }
-            else echo "No actualizado"; 
+            else echo "Error inesperado"; 
         }
-        echo "No actualizado";
+        echo "Error inesperado";
     }
 
 }

@@ -7,6 +7,11 @@ class Archivos {
 
     function subirImagen ($archivo, $nombre_usuario)
     {
+        var_dump($archivo);
+        if(empty($archivo["imagen"]["tmp_name"]))
+        {
+            return null;
+        }
         $es_imagen = getimagesize($archivo["imagen"]["tmp_name"]);
         if(!$es_imagen)
             return false;

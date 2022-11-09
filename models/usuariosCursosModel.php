@@ -7,8 +7,9 @@ class UsuariosCursosModel extends Model {
     function getStudentsByCourse($id)
     {
         $query = $this->db->connect()->prepare(
-            "SELECT usuarios_id FROM usuarios_cursos
-            WHERE cursos_id = :curso_id 
+            "SELECT * FROM usuarios_cursos
+            WHERE cursos_id = :curso_id
+            AND pago_pendiente = 0 
         ");
         try
         {
@@ -17,8 +18,7 @@ class UsuariosCursosModel extends Model {
                 $items = [];
                 while($row = $query->fetch())
                 {
-                    $item = new UsuarioCurso;
-                    $item->usuario_id = $row["usuarios_id"];
+                    $item = $row["usuarios_id"];
                     $items[] = $item;
                 }
             }

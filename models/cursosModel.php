@@ -101,6 +101,42 @@ class CursosModel extends Model {
         }
     }
 
+    function getByTag($etiqueta_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT * FROM cursos
+            WHERE etiqueta_id = :etiqueta_id
+        ");
+        try
+        {
+            if($query->execute(["etiqueta_id" => $etiqueta_id]))
+            {
+                $items = [];
+                while($row = $query->fetch())
+                {
+                    $item = new Curso();
+                    $item->id = $row["id"];
+                    $item->titulo = $row["titulo"];
+                    $item->descripcion = $row["descripcion"];
+                    $item->costo = $row["costo"];
+                    $item->cupo = $row["cupo"];
+                    $item->fecha_inicio = $row["fecha_inicio"];
+                    $item->fecha_fin = $row["fecha_fin"];
+                    $item->temario = $row["temario"];
+                    $item->fecha_creacion = $row["fecha_creacion"];
+                    $item->dueno_id = $row["dueno_id"];
+                    $item->etiqueta_id = $row["etiqueta_id"];
+                    $items [] = $item;
+                }
+                return $items;
+            }
+        }
+        catch (PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
     function create ($curso)
     {
         $query = $this->db->connect()->prepare(
