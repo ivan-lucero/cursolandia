@@ -23,6 +23,7 @@ class CursosController extends Controller{
     function ver($param){
         session_start();
         $curso_id = intval($param[0]);
+        
         $cursos_model = new CursosModel;
         $usuarios_model = new UsuariosModel;
         $usuarios_cursos_model = new UsuariosCursosModel;
@@ -48,7 +49,6 @@ class CursosController extends Controller{
         else 
         {
             $alumnosPendientes = $usuarios_cursos_model->getStudentsPendingsToPayByCourse($curso_id);
-            var_dump($alumnosPendientes);
             $alumnosPendientesArray = [];
             foreach($alumnosPendientes as $alumnoPendiente)
             {
@@ -58,6 +58,10 @@ class CursosController extends Controller{
             }
             $this->view->alumnos_pendientes = $alumnosPendientesArray;
         }
+        $dueno = $usuarios_model->getUser($curso->dueno_id);
+        $this->view->imagen = NULL;
+        if(!is_null($dueno["imagen"]))
+            $this->view->imagen = $dueno["imagen"];
         $this->view->materiales = $materiales;
         $this->view->curso = $curso;
         $this->view->preguntas = $preguntas;

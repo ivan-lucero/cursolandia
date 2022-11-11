@@ -9,7 +9,8 @@
 <body>
     <?php require_once("views/header-dashboard.php"); ?>
 
-    <h1>Pagina Dashboard Admin</h1>
+    <h1>Dashboard</h1>
+  </div>
     <?php require_once("views/footer.php");?>
 </body>
 </html> 

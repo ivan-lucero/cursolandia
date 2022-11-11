@@ -9,10 +9,10 @@
 <body>
     <?php require_once("views/header.php");?>
     
-    <header class="container text-center">
+    <header class="container text-center my-5">
         <h1>Inicio</h1>
     </header>
-    <main class="container">
+    <main class="container my-5">
         <h2>Cursos recomendados:</h2>
         <div class="d-flex p-2">
     <?php 

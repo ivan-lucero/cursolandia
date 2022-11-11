@@ -9,15 +9,24 @@
 <body>
     <?php require_once("views/header-dashboard.php"); ?>
 
-    <h1>Pagina Admin Usuarios</h1>
-    <h2>Solicitudes Pro:</h2>
+    <header class="container">
+        <h1>Pagina Admin Usuarios</h1>
+    </header>
+    <main class="container">
+        <h2>Solicitudes Pro:</h2>
+        <?php foreach($this->solicitudes as $solicitud){ ?>
 
-    <?php foreach($this->solicitudes as $solicitud){ ?>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo $solicitud->nombre ?></h5>
+                    <a href=" <?php echo constant("URL") . "/adminusuarios/aceptarSolicitud/" . $solicitud->usuario_id ?>" class="btn btn-success">Aceptar solicitud</a>
+                    <a href=" <?php echo constant("URL") . "/adminusuarios/rechazarSolicitud/" . $solicitud->usuario_id ?>" class="btn btn-danger">Rechazar solicitud</a>
+                </div>
+            </div>
 
-        <?php var_dump($solicitud); ?>
-        <?php echo "<a href=" . constant("URL") . "/adminusuarios/aceptarSolicitud/" . $solicitud->usuario_id . ">Aceptar solicitud</a>"; ?>
-        <?php echo "<a href=" . constant("URL") . "/adminusuarios/rechazarSolicitud/" . $solicitud->usuario_id . ">Rechazar solicitud</a>"; ?>
-    <?php } ?>
+        <?php } ?>  
+
+    </main>
     <?php require_once("views/footer.php");?>
 </body>
 </html>
