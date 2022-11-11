@@ -41,10 +41,14 @@ class PreguntasController extends Controller{
         session_start();
         $preguntas_model = new PreguntasModel;
         $respuestas_model = new RespuestasModel;
+        $usuarios_model = new UsuariosModel;
         $pregunta = $preguntas_model->getById($params[0]);
         $respuestas = $respuestas_model->getAllByQuestion($params[0]);
+        $creador = $usuarios_model->getUser($pregunta->creador_id);
+        var_dump($creador);
         $this->view->pregunta = $pregunta;
         $this->view->respuestas = $respuestas;
+        $this->view->creador = $creador;
         $this->view->render("preguntas/ver");
     }
 
@@ -76,7 +80,9 @@ class PreguntasController extends Controller{
         echo "editar pregunta";
         $pregunta_id = $param[0];
         $preguntas_model = new PreguntasModel;
+        $usuarios_model = new UsuariosModel;
         $pregunta = $preguntas_model->getById($pregunta_id);
+        
         $pregunta->titulo = $_POST["titulo"];
         $pregunta->contenido = $_POST["contenido"];
         var_dump($pregunta);

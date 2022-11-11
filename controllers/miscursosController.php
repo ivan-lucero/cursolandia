@@ -198,8 +198,8 @@ class MisCursosController extends Controller{
     function rechazarAlumno ($params)
     {
         echo "rechazar alumno";
-        $curso_id = $params[0];
-        $usuario_id = $params[1];
+        $usuario_id = $params[0];
+        $curso_id = $params[1];
         var_dump($curso_id);
         var_dump($usuario_id);
         $usuarios_cursos_model = new UsuariosCursosModel;

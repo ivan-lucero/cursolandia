@@ -19,7 +19,8 @@
         foreach($this->cursos_recomendados as $curso_recomendado)
         {
             foreach($curso_recomendado as $curso)
-            { ?>
+            {
+            if($curso->dueno_id != $_SESSION["id"]) { ?>
                 <div class="card mx-1" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $curso->titulo ?></h5>
@@ -28,7 +29,8 @@
                     </div>
                 </div>
             <?php }
-        } ?>
+            }
+        }?>
         </div>
     </main>
     <?php require_once("views/footer.php");?>
