@@ -74,6 +74,28 @@ class NotificacionesModel extends Model {
             return $ex->getMessage();
         }
     }
+
+    function updateRead($notificacion_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "UPDATE notificaciones
+            SET es_leido = 1
+            WHERE id = :notificacion_id
+            "
+        );
+        try
+        {
+            if($query->execute(["notificacion_id" => $notificacion_id]))
+            {
+                return true;
+            }
+            else return false;
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
 }
 
 ?>

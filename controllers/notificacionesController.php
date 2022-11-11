@@ -20,10 +20,23 @@ class NotificacionesController extends Controller{
         session_start();
         $notificaciones_model = new NotificacionesModel;
         $notificaciones = $notificaciones_model->getAllByUser($_SESSION["id"]);
+        $this->view->notificaciones = NULL;
         $this->view->notificaciones = $notificaciones;
         $this->view->render('notificaciones/index');
     }
     
+    function marcarComoLeido ($param)
+    {
+        $notificacion_id = $param[0];
+        var_dump($notificacion_id);
+        $notificaciones_model = new NotificacionesModel;
+        if($notificaciones_model->updateRead($notificacion_id))
+        {
+            header("Location:". constant('URL') . "notificaciones");
+        }
+        
+    }
+
     function notificarPreguntaCreada ($curso_id)
     {
         if(!isset($_SESSION)) session_start();

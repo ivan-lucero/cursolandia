@@ -75,6 +75,13 @@ class UsuariosModel extends Model {
         }
     }
 
+    function getUserCourses($usuario_id)
+    {
+        // $query = $this->db->connect()->prepare(
+        //     "SELECT COUNT()
+        // ")
+    }
+
 }
 
 ?>

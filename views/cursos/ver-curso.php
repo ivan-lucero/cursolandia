@@ -125,11 +125,11 @@
     <?php } ?>
     </section>
     
-    <section class="container border-top border-primary my-5">
-        <h2 class="fs-2 mt-5">Foro</h2>
-        
-        <?php if($this->es_inscripto && !$this->es_pago_pendiente && $this->curso->dueno_id != $_SESSION["id"]) 
+    
+    <?php if($this->es_inscripto && !$this->es_pago_pendiente && $this->curso->dueno_id != $_SESSION["id"]) 
         { ?>
+        <section class="container border-top border-primary my-5">
+            <h2 class="fs-2 mt-5">Foro</h2>
             <a href="<?php echo constant("URL") . "preguntas/crear/".$this->curso->id ."/" .$_SESSION["id"] ?>"
             class="btn btn-primary"
             >Crear pregunta</a>
