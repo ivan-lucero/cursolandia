@@ -34,14 +34,13 @@ class PerfilModel extends Model {
     {
         $query = $this->db->connect()->prepare(
             "UPDATE usuarios
-            SET telefono=:telefono, imagen=:imagen, fecha_nacimiento=:fecha_nacimiento, antecedentes=:antecedentes
+            SET telefono=:telefono, fecha_nacimiento=:fecha_nacimiento, antecedentes=:antecedentes
             WHERE email=:email"
         );
         try
         {
             if($query->execute([
                 "telefono" => $usuario->telefono,
-                "imagen" => $usuario->imagen,
                 "fecha_nacimiento" => $usuario->fecha_nacimiento,
                 "antecedentes" => $usuario->antecedentes,
                 "email" => $usuario->email,
@@ -51,6 +50,30 @@ class PerfilModel extends Model {
             }
         }
         catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
+    function updateImage ($imagen, $user_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "UPDATE usuarios
+            SET imagen=:imagen
+            WHERE id=:id"
+        );
+        try
+        {
+            if($query->execute([
+                "imagen" => $imagen,
+                "id" => $user_id
+                ]))
+            {
+                return $imagen;
+            }
+            else return false;
+        }
+        catch (PDOException $ex)
         {
             return $ex->getMessage();
         }

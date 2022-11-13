@@ -11,7 +11,7 @@
     <?php require_once("views/header.php");?>
 
     
-    <main class="container my-5">
+    <main class="container mt-5 vh-100">
         
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Solicita tu Cuenta Pro</h1>

@@ -47,24 +47,34 @@ class PerfilController extends Controller{
         $this->view->usuario = $usuario;
         $this->view->render('perfil/contrasena');
     }
+
+    function imagen ($errors = []) 
+    {
+        $this->view->errores = $errors;
+        $this->view->render("perfil/imagen");
+    }
     
     function editarPerfil ()
     {
         $archivosHelper = new Archivos();
         $errors = [];
         $intereses = [];
-
         session_start();
-        $imagen = $archivosHelper->subirImagen($_FILES, $_SESSION["nombre"]);
-        var_dump($_POST); 
-        if(!is_null($imagen) && !$imagen)
-            $errors["imagen"] = "La imagen no es valida";
-        if(!Validaciones::validarTelefono($_POST["telefono"]))
-            $errors["telefono"] = "El valor ingresado no es un telefono";
-        if(!Validaciones::validarAntecedentes($_POST["antecedentes"]))
-            $errors["antecedentes"] = "Los antecedentes deben ser menor a 255 caracteres";
-        if(!Validaciones::validarFechaNacimiento($_POST["fecha_nacimiento"]))
-            $errors["fecha_nacimiento"] = "La fecha ingresada no es válida";
+        
+        if(!empty($_POST["telefono"])) {
+            if(!Validaciones::validarTelefono($_POST["telefono"]))
+                $errors["telefono"] = "El valor ingresado no es un telefono";
+        }
+        if(!empty($_POST["antecedentes"]))
+        {
+            if(!Validaciones::validarAntecedentes($_POST["antecedentes"]))
+                $errors["antecedentes"] = "Los antecedentes deben ser menor a 255 caracteres";
+        }
+        if(!empty($_POST["fecha_nacimiento"]))
+        {
+            if(!Validaciones::validarFechaNacimiento($_POST["fecha_nacimiento"]))
+                $errors["fecha_nacimiento"] = "La fecha ingresada no es válida";
+        }
         
         if(isset($_POST["programacion"]))
             $intereses[] = 1;
@@ -80,7 +90,6 @@ class PerfilController extends Controller{
         }
         $usuario = new Usuario();
         $usuario->email = $_SESSION["email"];
-        $usuario->imagen = $imagen;
         $usuario->telefono = $_POST["telefono"];
         $usuario->fecha_nacimiento = $_POST["fecha_nacimiento"];
         $usuario->antecedentes = $_POST["antecedentes"];
@@ -97,8 +106,6 @@ class PerfilController extends Controller{
         if(!isset($_SESSION)) session_start();
         $usuario = $this->model->getUser($_SESSION["id"]);
         $errors = [];
-        var_dump($usuario);
-        var_dump($_POST);
         if(!Validaciones::validarContrasena($_POST["contrasena_actual"]))
             $errors["contrasena_actual"] = "La contraseña no es válida";
         if(!Validaciones::validarContrasena($_POST["contrasena"]))
@@ -117,11 +124,30 @@ class PerfilController extends Controller{
             $this->contrasena($errors);
             return false;
         }
-        var_dump($errors);
         
         if($this->model->updatePassword($_SESSION["id"], password_hash($_POST["contrasena"], PASSWORD_DEFAULT)))
         {
             header("Location:". constant('URL')."/perfil");
+        }
+    }
+
+    function cambiarImagen()
+    {
+        $archivosHelper = new Archivos();
+        session_start();
+        $errors = [];
+        if(empty($_FILES["imagen"]["tmp_name"])){
+            $errors ["imagen"] = "Debe seleccionar una imagen";
+            $this->imagen($errors);
+            return;
+        }
+        $imagen = $archivosHelper->subirImagen($_FILES, $_SESSION["nombre"]);
+        if($imagen)
+        {
+            if($this->model->updateImage($imagen, $_SESSION["id"]))
+            {
+                header("Location:". constant('URL')."/perfil");
+            } 
         }
     }
 }

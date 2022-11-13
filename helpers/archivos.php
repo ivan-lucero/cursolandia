@@ -7,7 +7,6 @@ class Archivos {
 
     function subirImagen ($archivo, $nombre_usuario)
     {
-        var_dump($archivo);
         if(empty($archivo["imagen"]["tmp_name"]))
         {
             return null;
