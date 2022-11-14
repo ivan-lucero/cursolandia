@@ -34,6 +34,7 @@ class Archivos {
     function subirMaterial ($archivo, $curso_id)
     {
         $tamano = $archivo["material"]["size"];
+        var_dump($archivo);
         if($tamano > 2000000)
             return false;
         

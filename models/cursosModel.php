@@ -137,6 +137,8 @@ class CursosModel extends Model {
         }
     }
 
+    
+
     function create ($curso)
     {
         $query = $this->db->connect()->prepare(

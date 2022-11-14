@@ -8,8 +8,6 @@
 </head>
 <body>
     <?php require_once("views/header.php");?>
-    <h1>Cambiar contraseña</h1>
-    
 
     <main class="container d-flex flex-column justify-content-center align-items-center vh-100">
         <form class="bg-light w-50 p-5 border rounded" action="<?php echo constant('URL') ?>perfil/cambiarContrasena" method="POST">

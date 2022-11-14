@@ -73,7 +73,7 @@
                             </div>
                             <ul class="list-group list-group-flush px-5">
                                 <?php foreach($this->intereses as $interes) { ?>
-                                    <li class="list-group-item text-muted"> <?php echo $interes ?> </li>
+                                    <li class="list-group-item text-primary fw-semibold"> <?php echo $interes ?> </li>
                                 <?php } ?>
                             </ul>
                         </div>

@@ -32,6 +32,12 @@ class CursosController extends Controller{
         $curso = $cursos_model->getById($curso_id);
         $materiales = $materiales_model->getAllByCourse($curso_id);
         $preguntas = $preguntas_model->getAllByCourse($curso_id);
+        $cant_alumnos = $usuarios_cursos_model->getCantStudentByCourse($curso_id);
+        $dueno = $usuarios_model->getUser($curso->dueno_id);
+        $this->view->dueno = $dueno;
+        $cupos_disponibles = (int)$curso->cupo - (int)$cant_alumnos ;
+        $this->view->cupos_disponibles = NULL;
+        $this->view->cupos_disponibles = $cupos_disponibles;
         $this->view->alumnos_pendientes = NULL;
         $this->view->es_inscripto = NULL;
         if($curso->dueno_id != $_SESSION["id"])

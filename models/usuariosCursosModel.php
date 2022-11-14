@@ -57,6 +57,29 @@ class UsuariosCursosModel extends Model {
         }
     }
     
+    function getCantStudentByCourse($curso_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT COUNT(usuarios_id) FROM usuarios_cursos
+            WHERE cursos_id = :id
+        ");
+        try
+        {
+            if($query->execute(["id" => $curso_id]))
+            {
+                if($row = $query->fetch())
+                {
+                    return $row[0];
+                }
+                else return false;
+            }
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
     function addStudentFree($curso_id, $alumno_id)
     {
         $query = $this->db->connect()->prepare(

@@ -13,18 +13,28 @@
     <main class="container col-xxl-8 px-4 py-5">
         <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
             <div class="col-10 col-sm-8 col-lg-6">
-                <img src="
-                <?php if(!is_null($this->imagen))
-                     echo constant("URL"). "uploads/imgs/". $this->imagen;
-                    else echo constant("URL"). "uploads/imgs/default.jpg"; ?>
-                " class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="<?php if(!is_null($this->dueno["imagen"]))
+                    {
+                        echo constant("URL") ."uploads/imgs/" . $this->dueno["imagen"];
+                    }
+                    else  echo constant("URL") . "uploads/imgs/default.jpg" ?>" 
+                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3"><?php echo $this->dueno["nombre"] ?></h5>
+                    <div class="d-flex flex-column justify-content-center mb-2">
+                        <p><?php echo $this->dueno["antecedentes"] ?></p>
+                    </div>
+                </div>
+            </div>
             </div>
             <div class="col-lg-6">
                 <h1 class="display-5 fw-bold lh-1 mb-3"><?php echo $this->curso->titulo ?></h1>
                 <p class="fs-5"><?php echo $this->curso->descripcion ?></p>
                 <p class="fs-6 mb-1">fecha de inicio: <?php echo date("d-m-Y", strtotime($this->curso->fecha_inicio)) ?></p>
                 <p class="fs-6 mt-1">fecha de fin: <?php echo date("d-m-Y", strtotime($this->curso->fecha_fin)) ?></p>
-                <p class="fs-3 mt-1 fw-bold">$ <?php echo $this->curso->costo; ?></p>
+                <p class="fs-4 mt-1">Cupos: <?php echo $this->cupos_disponibles; ?></p>
+                <p class="fs-3 mt-1 fw-bold"><?php if($this->curso->costo > 0)  echo "$". $this->curso->costo; else echo "Gratis" ?></p>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 
                 <?php if($this->curso->dueno_id == $_SESSION["id"]) 
@@ -46,8 +56,12 @@
                     <?php }
                     else 
                     { ?> 
+                        <?php if($this->cupos_disponibles > 0) { ?>
                         <a href="<?php echo constant('URL')."cursos/inscribirseACurso/".$this->curso->id ?>" class="btn btn-success btn-lg px-4 me-md-2">Inscribirse al curso</a>
-                    <?php } 
+                        <?php } 
+                        else { ?>
+                            <p class="btn btn-outline-danger btn-lg px-4 me-md-2 disabled">No hay cupos disponibles</p>
+                        <?php } } 
                 } ?>
                 </div>
             </div>
@@ -126,14 +140,13 @@
     </section>
     
     
-    <?php if($this->es_inscripto && !$this->es_pago_pendiente && $this->curso->dueno_id != $_SESSION["id"]) 
+    <?php if(($this->es_inscripto && !$this->es_pago_pendiente) || $this->curso->dueno_id == $_SESSION["id"]) 
         { ?>
         <section class="container border-top border-primary my-5">
             <h2 class="fs-2 mt-5">Foro</h2>
             <a href="<?php echo constant("URL") . "preguntas/crear/".$this->curso->id ."/" .$_SESSION["id"] ?>"
             class="btn btn-primary"
             >Crear pregunta</a>
-        <?php } ?>
         <?php if(($this->es_inscripto && !$this->es_pago_pendiente) || $this->curso->dueno_id == $_SESSION["id"]) 
         { ?>
             <div class="list-group list-group-radio d-grid gap-2 border-0 w-auto mt-3 w-50">
@@ -152,12 +165,9 @@
             <?php } ?> 
             </div>
         <?php } ?>
+    <?php } ?>
     </section>
 
-    
-    
-    
-    
     <?php require_once("views/footer.php");?>
 </body>
 </html>

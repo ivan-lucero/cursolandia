@@ -162,7 +162,6 @@ class MisCursosController extends Controller{
 
     function eliminarMaterial ($param)
     {
-        // CONTINUAR
         session_start();
         $material_id = $param[0];
         $materiales_model = new MaterialesModel;
@@ -176,14 +175,16 @@ class MisCursosController extends Controller{
         }
         if($materiales_model->delete($material_id))
         {
-            header("Location:". constant('URL')."cursos/ver/". $curso->id);
-        }
+            if(unlink("uploads/files/" . $curso->id .".". $material->nombre))
+            {
+                header("Location:". constant('URL')."cursos/ver/". $curso->id);
+            } else echo "error";
+        } 
         echo "Error Inesperado";
     }
 
     function aceptarAlumno ($params)
     {
-         // CONTINUAR //
         echo "Aceptar alumno";
         $usuario_id = $params[0];
         $curso_id = $params[1];
