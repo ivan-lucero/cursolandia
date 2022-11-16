@@ -15,12 +15,13 @@
             <div class="col-10 col-sm-8 col-lg-6">
             <div class="card mb-4">
                 <div class="card-body text-center">
+                    <h4>Dictado por</h4>
                     <img src="<?php if(!is_null($this->dueno["imagen"]))
                     {
                         echo constant("URL") ."uploads/imgs/" . $this->dueno["imagen"];
                     }
                     else  echo constant("URL") . "uploads/imgs/default.jpg" ?>" 
-                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover; object-position: center">
                     <h5 class="my-3"><?php echo $this->dueno["nombre"] ?></h5>
                     <div class="d-flex flex-column justify-content-center mb-2">
                         <p><?php echo $this->dueno["antecedentes"] ?></p>
@@ -97,6 +98,25 @@
             <?php } ?>
         </section>
     <?php } ?>
+
+
+    <section class="container my-5 border-top border-primary">
+        <h2 class="fs-2 mt-5">Alumnos</h2>
+        <div class="container d-flex">
+            <?php foreach($this->alumnos as $alumno) {?>
+                <div class="d-flex align-items-center border border-ligth p-2 m-2 border-2 rounded-2">
+                    <?php if(!is_null($alumno["imagen"])) { ?>
+                       <img class="rounded-circle img-fluid " style="width: 75px; height: 75px; object-fit: cover; object-position: center" src="<?php echo constant("URL") . "uploads/imgs/".$alumno["imagen"] ?>" alt="">
+                    <?php } 
+                    else { ?>
+                        <img class="rounded-circle img-fluid" style="width: 75px; height: 75px; object-fit: cover; object-position: center" src="<?php echo constant("URL") . "uploads/imgs/default.jpg" ?>" alt="">
+                    <?php } ?>
+                    <p class="fw-semibold ms-3 fs-5"><?php echo $alumno["nombre"] ?></p>
+                </div>
+            <?php } ?>
+        </div>
+        
+    </section>
 
     <section class="container my-5 border-top border-primary">
         <h2 class="fs-2 mt-5">Temario</h2>

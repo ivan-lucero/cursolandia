@@ -67,7 +67,6 @@ class NotificacionesController extends Controller{
     function notificarRespuestaCreada ($pregunta_id)
     {
         echo "Notificar respuesta";
-        var_dump($pregunta_id[0]);
         if(!isset($_SESSION)) session_start();
         $preguntas_model = new PreguntasModel;
         $usuarios_model = new UsuariosModel;
@@ -77,16 +76,20 @@ class NotificacionesController extends Controller{
         $participantes_id = $preguntas_model->getAllParticipants($pregunta->id);
         $usuario = $usuarios_model->getUser($_SESSION["id"]);
         $curso = $cursos_model->getById($pregunta->curso_id);
-        var_dump($participantes_id);
         $notificacion = new Notificacion;
+        $notificacion_creador = new Notificacion;
+        $notificacion_dueno = new Notificacion;
         $notificacion->contenido = $usuario["nombre"] . " ha realizado una respuesta a la pregunta \"" . $pregunta->titulo . "\" del curso \"" .$curso->titulo;
-        var_dump($notificacion);
-        
+        $notificacion_creador->contenido = $usuario["nombre"] . " ha realizado una respuesta a la pregunta \"" . $pregunta->titulo . "\" del curso \"" .$curso->titulo;
+        $notificacion_dueno->contenido = $usuario["nombre"] . " ha realizado una respuesta a la pregunta \"" . $pregunta->titulo . "\" del curso \"" .$curso->titulo;
+        $notificacion_creador->usuario_id = $pregunta->creador_id;
+        $notificacion_dueno->usuario_id = $curso->dueno_id;
+        $notificaciones_model->create($notificacion_creador);
+        $notificaciones_model->create($notificacion_dueno);
         foreach($participantes_id as $participante_id)
         {
             if($participante_id != $_SESSION["id"])
             {
-                var_dump($participante_id);
                 $notificacion->usuario_id = $participante_id;
                 $notificaciones_model->create($notificacion);
             }

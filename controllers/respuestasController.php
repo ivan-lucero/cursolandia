@@ -10,7 +10,7 @@ class RespuestasController extends Controller {
 
     function crear($params)
     {
-        var_dump($params);
+        session_start();
         $pregunta_id = $params[0];
         if(isset($params[1]))
         {
@@ -38,17 +38,18 @@ class RespuestasController extends Controller {
         $respuesta->creador_id = $_SESSION["id"];
         if(isset($params[1]))
         {
-            echo "Existe parametro 1";
             $respuesta_citada_id = $params[1];
             $respuesta_citada = $respuestas_model->getById($respuesta_citada_id);
             $respuesta->respuesta_citada_id = $respuesta_citada->id;
         }
-        $respuesta->respuesta_citada_id = $respuesta_citada->id;
+        else $respuesta->respuesta_citada_id = NULL;
 
         if($respuesta_creada = $respuestas_model->create($respuesta))
         {
-            $notificaciones_controller->notificarRespuestaCreada($pregunta_id);
-            header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);
+            if($notificaciones_controller->notificarRespuestaCreada($pregunta_id))
+            {
+                header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);
+            } 
         }
     }
 

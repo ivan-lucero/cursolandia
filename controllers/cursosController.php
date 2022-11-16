@@ -33,6 +33,13 @@ class CursosController extends Controller{
         $materiales = $materiales_model->getAllByCourse($curso_id);
         $preguntas = $preguntas_model->getAllByCourse($curso_id);
         $cant_alumnos = $usuarios_cursos_model->getCantStudentByCourse($curso_id);
+        $alumnos_id = $usuarios_cursos_model->getStudentsByCourse($curso_id);
+        $alumnos = [];
+        foreach ($alumnos_id as $id){
+            $alumnos[] = $usuarios_model->getUser($id);
+        }
+        $this->view->alumnos = NULL;
+        $this->view->alumnos = $alumnos;
         $dueno = $usuarios_model->getUser($curso->dueno_id);
         $this->view->dueno = $dueno;
         $cupos_disponibles = (int)$curso->cupo - (int)$cant_alumnos ;
@@ -78,7 +85,6 @@ class CursosController extends Controller{
         $cursos_model = new CursosModel;
         $usuarios_cursos_model = new UsuariosCursosModel;
         $curso = $cursos_model->getById($param[0]);
-        var_dump($curso);
         session_start();
         if($curso->costo == 0)
             $usuarios_cursos_model->addStudentFree($curso->id, $_SESSION["id"]);

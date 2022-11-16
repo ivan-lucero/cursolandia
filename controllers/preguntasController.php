@@ -42,12 +42,22 @@ class PreguntasController extends Controller{
         $preguntas_model = new PreguntasModel;
         $respuestas_model = new RespuestasModel;
         $usuarios_model = new UsuariosModel;
+        $cursos_model = new CursosModel;
         $pregunta = $preguntas_model->getById($params[0]);
+        $curso = $cursos_model->getById($pregunta->curso_id);
         $respuestas = $respuestas_model->getAllByQuestion($params[0]);
+        $respuestas_parse = [];
+        foreach($respuestas as $respuesta)
+        {
+            $usuario = $usuarios_model->getUser($respuesta->creador_id);
+            $respuesta->nombre_creador = $usuario["nombre"];
+            $respuestas_parse[] = $respuesta;
+        }
+
         $creador = $usuarios_model->getUser($pregunta->creador_id);
-        var_dump($creador);
         $this->view->pregunta = $pregunta;
-        $this->view->respuestas = $respuestas;
+        $this->view->curso = $curso;
+        $this->view->respuestas = $respuestas_parse;
         $this->view->creador = $creador;
         $this->view->render("preguntas/ver");
     }
@@ -69,7 +79,6 @@ class PreguntasController extends Controller{
         $pregunta->creador_id = $creador_id;
         if($pregunta_creada = $preguntas_model->create($pregunta))
         {
-            var_dump($pregunta_creada);
             if($notificaciones_controller->notificarPreguntaCreada($curso_id)) 
                 header("Location:". constant('URL')."preguntas/ver/". $pregunta_creada->id);
         }

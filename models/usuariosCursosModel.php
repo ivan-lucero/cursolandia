@@ -80,6 +80,30 @@ class UsuariosCursosModel extends Model {
         }
     }
 
+    function getCoursesRegisteredByUser($usuario_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT cursos_id FROM usuarios_cursos
+            WHERE usuarios_id = :id
+        ");
+        try
+        {
+            if($query->execute(["id" => $usuario_id]))
+            {
+                $items = [];
+                while($row = $query->fetch())
+                {
+                    $items [] = $row["cursos_id"];
+                }
+                return $items;
+            }
+        }
+        catch (PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+    }
+
     function addStudentFree($curso_id, $alumno_id)
     {
         $query = $this->db->connect()->prepare(

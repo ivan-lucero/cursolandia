@@ -17,8 +17,16 @@ class MisCursosController extends Controller{
     {
         session_start();
         $cursos_model = new CursosModel;
-        $cursos = $cursos_model->getAllByUser($_SESSION["id"]);
-        $this->view->cursos = $cursos;
+        $usuarios_cursos_model = new UsuariosCursosModel;
+        $cursos_creados = $cursos_model->getAllByUser($_SESSION["id"]);
+        $cursos_inscriptos_id = $usuarios_cursos_model->getCoursesRegisteredByUser($_SESSION["id"]);
+        $cursos_inscriptos = [];
+        foreach($cursos_inscriptos_id as $id)
+        {
+            $cursos_inscriptos[] = $cursos_model->getById($id);
+        }
+        $this->view->cursos_creados = $cursos_creados;
+        $this->view->cursos_inscriptos = $cursos_inscriptos;
         $this->view->render('mis-cursos/index');
     }
     function crear($errores = null, $curso = null)

@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $curso->titulo ?></h5>
                     <p class="card-text"><?php echo $curso->descripcion ?></p>
-                    <a href=" <?php echo constant("URL")."cursos/ver/". $curso->id ?>">Ver curso</a>
+                    <a class="btn btn-primary" href=" <?php echo constant("URL")."cursos/ver/". $curso->id ?>">Ver curso</a>
                 </div>
             </div>
         <?php } ?>

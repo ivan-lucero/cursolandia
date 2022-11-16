@@ -8,14 +8,16 @@
 </head>
 <body>
     <?php require_once("views/header.php");?>
-    <h1>Crear respuesta</h1>
-    <h4>Respuesta citada:</h4>
-    <?php if(isset($this->respuesta_citada)) var_dump($this->respuesta_citada); ?>
-
-    <form action="<?php echo constant("URL") . "respuestas/crearRespuesta/" .$this->pregunta->id; if(isset($this->respuesta_citada)) echo "/". $this->respuesta_citada->id ?>" method="POST">
-        <textarea name="contenido" placeholder="escribir respuesta..."></textarea>
-        <input type="submit" value="Enviar">
-    </form>
+    <main class="container d-flex flex-column justify-content-center align-items-center vh-100">
+        <form class="bg-light w-50 p-5 border rounded" action="<?php echo constant("URL") . "respuestas/crearRespuesta/" .$this->pregunta->id; ?> method="POST">
+            <h1 class="mb-5 text-center">Crear respuesta</h1>
+            <div class="mb-3">
+                <label for="contenido" class="form-label">Contenido</label>
+                <textarea class="form-control" name="contenido" cols="30" rows="10" placeholder="escribir respuesta..."></textarea>
+            </div>
+            <button type="submit" class="btn mt-3 w-100 btn-primary">Crear</button>
+        </form>
+    </main>
 
     <?php require_once("views/footer.php");?>
 </body>

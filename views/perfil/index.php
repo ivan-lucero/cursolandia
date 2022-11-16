@@ -16,8 +16,8 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="<?php echo "uploads/imgs/" . $this->usuario["imagen"] ?>" alt="avatar"
-                            class="rounded-circle img-fluid" style="width: 150px;">
+                            <img src="<?php if(!is_null($this->usuario["imagen"])) echo "uploads/imgs/" . $this->usuario["imagen"]; else echo "uploads/imgs/default.jpg" ?>" alt="avatar"
+                            class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover; object-position: center;">
                             <h5 class="my-3"><?php echo $this->usuario["nombre"] ?></h5>
                             <div class="d-flex flex-column justify-content-center mb-2">
                                 <a href="<?php echo constant("URL")."perfil/imagen" ?>" type="button" class="btn btn-outline-primary my-1">Cambiar imagen</a> 
