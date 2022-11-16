@@ -16,18 +16,14 @@ class PreguntasController extends Controller{
     function crear($params)
     {
         session_start();
-        var_dump($params);
         $this->view->curso_id = $params[0];
         $this->view->usuario_id = $params[1];
-        var_dump($this->view->curso_id);
-        var_dump($this->view->usuario_id);
         $this->view->render("preguntas/crear");
     }
     
     function editar($params)
     {
         session_start();
-        var_dump($params);
         $this->view->curso_id = $params[0];
         $this->view->usuario_id = $_SESSION["id"];
         $preguntas_model = new PreguntasModel;
@@ -38,6 +34,7 @@ class PreguntasController extends Controller{
 
     function ver ($params)
     {
+
         session_start();
         $preguntas_model = new PreguntasModel;
         $respuestas_model = new RespuestasModel;
@@ -46,6 +43,7 @@ class PreguntasController extends Controller{
         $pregunta = $preguntas_model->getById($params[0]);
         $curso = $cursos_model->getById($pregunta->curso_id);
         $respuestas = $respuestas_model->getAllByQuestion($params[0]);
+        $ultima_respuesta = $respuestas_model->getLastAnswerByQuestion($params[0]);
         $respuestas_parse = [];
         foreach($respuestas as $respuesta)
         {
@@ -55,10 +53,12 @@ class PreguntasController extends Controller{
         }
 
         $creador = $usuarios_model->getUser($pregunta->creador_id);
+        
         $this->view->pregunta = $pregunta;
         $this->view->curso = $curso;
         $this->view->respuestas = $respuestas_parse;
         $this->view->creador = $creador;
+        $this->view->ultima_respuesta = $ultima_respuesta;
         $this->view->render("preguntas/ver");
     }
 
@@ -66,11 +66,8 @@ class PreguntasController extends Controller{
     {
         session_start();
         $notificaciones_controller = new NotificacionesController;
-        echo "Crear pregunta";
-        var_dump($_POST);
         $curso_id = $params[0];
         $creador_id = $_SESSION["id"];
-        var_dump($params);
         $preguntas_model = new PreguntasModel;
         $pregunta = new Pregunta;
         $pregunta->titulo = $_POST["titulo"];
@@ -94,7 +91,6 @@ class PreguntasController extends Controller{
         
         $pregunta->titulo = $_POST["titulo"];
         $pregunta->contenido = $_POST["contenido"];
-        var_dump($pregunta);
         if($preguntas_model->update($pregunta))
         {
             header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);

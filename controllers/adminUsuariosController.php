@@ -37,7 +37,6 @@ class AdminUsuariosController extends Controller{
     function rechazarSolicitud ($param)
     {
         echo "Rechazar solicitud";
-        var_dump($param[0]);
         $usuario_id = $param[0];
         $usuarios_model = new UsuariosModel;
         $solicitudes_pro_model = new SolicitudesProModel;

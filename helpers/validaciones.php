@@ -2,7 +2,7 @@
 
 class Validaciones {
 
-    static function validarDecimal($decimal)
+    static function validarDecimal($decimal = 0)
     {
         return (!preg_match(
             "^[0-9]{1,3}$|^[0-9]{1,3}\.[0-9]{1,3}$",

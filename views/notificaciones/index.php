@@ -27,7 +27,6 @@
             </div>
         <?php } ?>
     </main>
-    <?php var_dump($this->notificaciones); ?>
     <?php require_once("views/footer.php");?>
 </body>
 </html>

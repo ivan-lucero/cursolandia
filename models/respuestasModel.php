@@ -68,6 +68,42 @@ class RespuestasModel extends Model {
         }
     }
 
+    function getLastAnswerByQuestion ($pregunta_id)
+    {
+        $query = $this->db->connect()->prepare(
+            "SELECT * FROM respuestas
+            WHERE preguntas_id = :id
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+        try
+        {
+            if($query->execute(["id" => $pregunta_id]))
+            {
+                if($row = $query->fetch())
+                {
+                    $item = new Respuesta(); 
+                    $item->id = $row["id"];
+                    $item->contenido = $row["contenido"];
+                    $item->es_destacado = $row["es_destacado"];
+                    $item->fecha_creacion = $row["fecha_creacion"];
+                    $item->preguntas_id = $row["preguntas_id"];
+                    $item->creador_id = $row["creador_id"];
+                    $item->respuesta_citada_id = $row["respuesta_citada_id"];
+                    return $item;
+                }
+                else return false;
+            }
+        }
+        catch(PDOException $ex)
+        {
+            return $ex->getMessage();
+        }
+
+        
+        
+    }
+
     function create ($respuesta)
     {
         echo "asdasd";

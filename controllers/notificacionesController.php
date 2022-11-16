@@ -28,7 +28,6 @@ class NotificacionesController extends Controller{
     function marcarComoLeido ($param)
     {
         $notificacion_id = $param[0];
-        var_dump($notificacion_id);
         $notificaciones_model = new NotificacionesModel;
         if($notificaciones_model->updateRead($notificacion_id))
         {
@@ -40,7 +39,6 @@ class NotificacionesController extends Controller{
     function notificarPreguntaCreada ($curso_id)
     {
         if(!isset($_SESSION)) session_start();
-        var_dump($curso_id);
         $usuarios_cursos_model = new UsuariosCursosModel;
         $cursos_model = new CursosModel;
         $usuarios_model = new UsuariosModel;
@@ -51,12 +49,10 @@ class NotificacionesController extends Controller{
         
         $notificacion = new Notificacion;
         $notificacion->contenido = $usuario["nombre"] . " ha iniciado una pregunta en el curso \"" . $curso->titulo . "\"";
-        var_dump($notificacion);
         foreach($alumnos_id as $alumno_id)
         {
             if($alumno_id != $_SESSION["id"])
             {
-                var_dump($alumno_id);
                 $notificacion->usuario_id = $alumno_id;
                 $notificaciones_model->create($notificacion);
             }
@@ -66,13 +62,12 @@ class NotificacionesController extends Controller{
 
     function notificarRespuestaCreada ($pregunta_id)
     {
-        echo "Notificar respuesta";
         if(!isset($_SESSION)) session_start();
         $preguntas_model = new PreguntasModel;
         $usuarios_model = new UsuariosModel;
         $cursos_model = new CursosModel;
         $notificaciones_model = new NotificacionesModel;
-        $pregunta = $preguntas_model->getById($pregunta_id[0]);
+        $pregunta = $preguntas_model->getById($pregunta_id);
         $participantes_id = $preguntas_model->getAllParticipants($pregunta->id);
         $usuario = $usuarios_model->getUser($_SESSION["id"]);
         $curso = $cursos_model->getById($pregunta->curso_id);

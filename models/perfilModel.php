@@ -130,7 +130,6 @@ class PerfilModel extends Model {
 
     function updateUserTags ($user_id, $intereses = null)
     {
-        var_dump($intereses);
         try
         {
             $query = $this->db->connect()->query(

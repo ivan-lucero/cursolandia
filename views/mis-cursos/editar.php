@@ -9,6 +9,11 @@
 <body>
     <?php require_once("views/header.php");?>
     <h1>Editar curso</h1>
+
+
+
+
+    
     <?php if(isset($this->errores)) var_dump($this->errores) ?>
     <form action="<?php echo constant('URL')."miscursos/editarCurso/".$this->curso->id ?>" method="POST">
         <label for="titulo">Titulo:</label>

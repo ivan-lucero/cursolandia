@@ -23,7 +23,6 @@ class CursosController extends Controller{
     function ver($param){
         session_start();
         $curso_id = intval($param[0]);
-        
         $cursos_model = new CursosModel;
         $usuarios_model = new UsuariosModel;
         $usuarios_cursos_model = new UsuariosCursosModel;

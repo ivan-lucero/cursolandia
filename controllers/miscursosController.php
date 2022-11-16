@@ -193,11 +193,8 @@ class MisCursosController extends Controller{
 
     function aceptarAlumno ($params)
     {
-        echo "Aceptar alumno";
         $usuario_id = $params[0];
         $curso_id = $params[1];
-        var_dump($curso_id);
-        var_dump($usuario_id);
         $usuarios_cursos_model = new UsuariosCursosModel;
         if($usuarios_cursos_model->updateStudentPendingToPay($curso_id, $usuario_id))
         {
@@ -206,11 +203,8 @@ class MisCursosController extends Controller{
     }
     function rechazarAlumno ($params)
     {
-        echo "rechazar alumno";
         $usuario_id = $params[0];
         $curso_id = $params[1];
-        var_dump($curso_id);
-        var_dump($usuario_id);
         $usuarios_cursos_model = new UsuariosCursosModel;
         if($usuarios_cursos_model->deleteStudent($curso_id, $usuario_id))
         {

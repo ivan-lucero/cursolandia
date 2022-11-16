@@ -49,14 +49,13 @@ class RespuestasController extends Controller {
             if($notificaciones_controller->notificarRespuestaCreada($pregunta_id))
             {
                 header("Location:". constant('URL')."preguntas/ver/". $pregunta_id);
-            } 
+            }
         }
     }
 
     function marcar ($param)
     {
         echo "marcar como aceptada";
-        var_dump($param);
         $respuesta_id = $param[0];
         $respuestas_model = new RespuestasModel;
         $preguntas_model = new PreguntasModel;

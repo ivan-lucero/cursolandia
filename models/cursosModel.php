@@ -186,7 +186,6 @@ class CursosModel extends Model {
         catch(Exception $ex)
         {
             echo "Catch";
-            var_dump($ex);
             return $ex->getMessage();
         }
     }

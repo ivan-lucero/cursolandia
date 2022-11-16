@@ -94,8 +94,6 @@ class MaterialesModel extends Model {
         }
         catch(PDOException $ex)
         {
-            var_dump($ex->getMessage());
-            echo "catch";
             return $ex->getMessage();
         }
     }

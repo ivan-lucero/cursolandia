@@ -38,7 +38,6 @@ class NotificacionesModel extends Model {
 
     function create ($notificacion)
     {
-        var_dump($notificacion);
         $query = $this->db->connect()->prepare(
             "INSERT INTO notificaciones
             (contenido, usuarios_id)
