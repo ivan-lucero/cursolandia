@@ -12,7 +12,7 @@
     
     
     <main class="container my-5">
-        <h1>Pagina Cursos</h1>
+        <h1>Cursos</h1>
     <?php if(!empty($this->cursos))
     { ?>
         <div class="d-flex my-5">

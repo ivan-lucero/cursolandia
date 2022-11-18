@@ -16,6 +16,12 @@
         <h2>Cursos recomendados:</h2>
         <div class="d-flex p-2">
     <?php 
+        if(empty($this->cursos_recomendados))
+        { ?>
+            <p class="fs-4">Agregue sus intereses en la página de perfil para recibir recomendaciones</p>
+        <?php } ?>
+
+        <?php 
         foreach($this->cursos_recomendados as $curso_recomendado)
         {
             foreach($curso_recomendado as $curso)
