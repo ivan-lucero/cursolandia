@@ -19,6 +19,7 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                <span class="form-text"> Debe ser de mínimo 8 caracteres</span>
                 <input type="password" name="contrasena" class="form-control" id="exampleInputPassword1">
                 <?php if(isset($this->errores["contrasena"])) echo "<span class='text-danger'> ". $this->errores["contrasena"] ."</span>" ?>
             </div>

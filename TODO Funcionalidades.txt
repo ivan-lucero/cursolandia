@@ -1,0 +1,13 @@
+completar registro.
+
+completar perfil.
+
+agregar cupos de cursos, y sus reglas.
+
+agregar en el curso que el profesor pueda ver los alumnos del curso.
+
+agregar que el usuario pueda ver sus cursos inscriptos
+
+terminar preguntas y respuestas.
+
+control de respuestas consecutivas.
